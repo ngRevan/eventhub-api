@@ -8,7 +8,7 @@ namespace EventHub.Web.Api.Configurations
     {
         public static IServiceCollection AddAppIdentity(this IServiceCollection services)
         {
-            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddDefaultIdentity<ApplicationUser>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             return services;
