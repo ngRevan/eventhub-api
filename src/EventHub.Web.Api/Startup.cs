@@ -1,6 +1,8 @@
+using EventHub.DataAccess.EntityFramework.DataContext;
 using EventHub.Web.Api.Configurations;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -21,18 +23,20 @@ namespace EventHub.Web.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAppDependencyInjection(Configuration);
+            services.AddHttpContextAccessor();
             services.AddAppOptions(Configuration);
             services.AddMigrosCors();
             services.AddAppIdentity();
             services.AddAppSecurity(Configuration);
-            services.AddControllers();
-            services.AddRazorPages();
+            services.AddAppMvc();
             services.AddAppSwagger();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ApplicationDbContext applicationDbContext)
         {
+            applicationDbContext.Database.Migrate();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -53,7 +57,7 @@ namespace EventHub.Web.Api
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+                endpoints.MapControllers().RequireAuthorization();
                 endpoints.MapRazorPages();
             });
 

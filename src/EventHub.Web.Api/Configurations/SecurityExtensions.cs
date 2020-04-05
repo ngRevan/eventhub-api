@@ -24,8 +24,6 @@ namespace EventHub.Web.Api.Configurations
                 })
                 .AddIdentityServerJwt();
 
-            services.AddAuthorization();
-
             return services;
         }
 
