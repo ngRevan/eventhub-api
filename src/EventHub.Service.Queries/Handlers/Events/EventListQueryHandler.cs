@@ -45,7 +45,7 @@ namespace EventHub.Service.Queries.Handlers.Events
 
         private IQueryable<Event> ApplyFilter(IQueryable<Event> query, EventListQuery message)
         {
-            var predicate = PredicateBuilder.New<Event>();
+            var predicate = PredicateBuilder.New<Event>(true);
 
             if (string.IsNullOrEmpty(message.SearchText) == false)
             {

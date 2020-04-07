@@ -36,6 +36,7 @@ namespace EventHub.Web.Api
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ApplicationDbContext applicationDbContext)
         {
             applicationDbContext.Database.Migrate();
+            app.ApplicationServices.GetRequiredService<AutoMapper.IConfigurationProvider>().AssertConfigurationIsValid();
 
             if (env.IsDevelopment())
             {

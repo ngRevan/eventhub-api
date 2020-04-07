@@ -23,6 +23,7 @@
   <ItemGroup>
     <ProjectReference Include="..\EventHub.DataAccess.EntityFramework\EventHub.DataAccess.EntityFramework.csproj" />
     <ProjectReference Include="..\EventHub.Infrastructure\EventHub.Infrastructure.csproj" />
+    <ProjectReference Include="..\EventHub.Service.Commands\EventHub.Service.Commands.csproj" />
     <ProjectReference Include="..\EventHub.Service.Queries\EventHub.Service.Queries.csproj" />
   </ItemGroup>
 

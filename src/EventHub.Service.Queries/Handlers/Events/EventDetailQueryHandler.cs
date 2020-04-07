@@ -29,7 +29,7 @@ namespace EventHub.Service.Queries.Handlers.Events
 
         public async Task<EventDetailResult> Handle(EventDetailQuery request, CancellationToken cancellationToken)
         {
-            var userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Sid).Value;
+            var userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
             var result = await _dbContext.Events.AsNoTracking().Where(e => e.Members.Any(m => m.UserId == userId)).FirstOrDefaultAsync(e => e.Id == request.Id);
             if (result == null)

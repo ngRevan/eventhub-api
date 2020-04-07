@@ -1,7 +1,7 @@
-﻿using EventHub.Service.Queries.Messaging.Events;
+﻿using EventHub.Service.Commands.Messaging.Events;
+using EventHub.Service.Queries.Messaging.Events;
 using EventHub.Service.Queries.ViewModels;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -35,6 +35,31 @@ namespace EventHub.Web.Api.Controllers
             var result = await _mediator.Send(new EventDetailQuery { Id = eventId });
 
             return Ok(result.Result);
+        }
+
+        [HttpPost(Name = "createEvent")]
+        public async Task<IActionResult> Post([FromBody]CreateEventCommand message)
+        {
+            await _mediator.Send(message);
+
+            return CreatedAtAction(nameof(Get), new { @eventId = message.Id }, null);
+        }
+
+        [HttpPut("{eventId:guid}", Name = "updateEvent")]
+        public async Task<IActionResult> Put(Guid eventId, [FromBody]UpdateEventCommand message)
+        {
+            message.Id = eventId;
+            await _mediator.Send(message);
+
+            return NoContent();
+        }
+
+        [HttpDelete("{eventId:guid}", Name = "deleteEvent")]
+        public async Task<IActionResult> Delete(Guid eventId)
+        {
+            await _mediator.Send(new DeleteEventCommand { Id = eventId });
+
+            return NoContent();
         }
     }
 }
