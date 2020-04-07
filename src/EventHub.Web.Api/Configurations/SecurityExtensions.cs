@@ -1,6 +1,7 @@
 ﻿using EventHub.DataAccess.EntityFramework.DataContext;
 using EventHub.DataAccess.EntityFramework.Models;
 using EventHub.Infrastructure.Configurations;
+using IdentityServer4.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
@@ -13,7 +14,19 @@ namespace EventHub.Web.Api.Configurations
         public static IServiceCollection AddAppSecurity(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddIdentityServer()
-                .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
+                .AddApiAuthorization<ApplicationUser, ApplicationDbContext>(c =>
+                {
+                    c.Clients.Add(new Client
+                    {
+                        ClientId = "EventHub.Swagger",
+                        ClientName = "Swagger UI for EventHub API",
+                        AllowedGrantTypes = GrantTypes.Implicit,
+                        AllowAccessTokensViaBrowser = true,
+                        RedirectUris = { "https://localhost:44300/swagger/oauth2-redirect.html" },
+                        AllowedScopes = { "EventHub.Web.ApiAPI" },
+                        RequireConsent = false,
+                    });
+                });
 
             services.AddAuthentication()
                 .AddGoogle(options =>
