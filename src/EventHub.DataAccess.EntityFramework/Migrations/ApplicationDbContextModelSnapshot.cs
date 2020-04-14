@@ -103,7 +103,7 @@ namespace EventHub.DataAccess.EntityFramework.Migrations
                     b.Property<DateTime>("EndDateTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("ModifiedAt")
+                    b.Property<DateTime?>("ModifiedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ModifiedByUserId")
@@ -144,7 +144,7 @@ namespace EventHub.DataAccess.EntityFramework.Migrations
                     b.Property<bool>("IsAdmin")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime>("ModifiedAt")
+                    b.Property<DateTime?>("ModifiedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ModifiedByUserId")
@@ -183,7 +183,7 @@ namespace EventHub.DataAccess.EntityFramework.Migrations
                     b.Property<Guid>("EventId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("ModifiedAt")
+                    b.Property<DateTime?>("ModifiedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ModifiedByUserId")
@@ -226,7 +226,7 @@ namespace EventHub.DataAccess.EntityFramework.Migrations
                     b.Property<bool>("IsDone")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime>("ModifiedAt")
+                    b.Property<DateTime?>("ModifiedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ModifiedByUserId")

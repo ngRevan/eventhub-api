@@ -12,7 +12,7 @@ namespace EventHub.DataAccess.EntityFramework.Models
 
         public string CreatedByUserId { get; set; }
 
-        public DateTime ModifiedAt { get; set; }
+        public DateTime? ModifiedAt { get; set; }
 
         public string ModifiedByUserId { get; set; }
 
