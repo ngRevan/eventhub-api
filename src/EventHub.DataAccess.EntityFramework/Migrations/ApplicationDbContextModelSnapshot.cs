@@ -165,7 +165,7 @@ namespace EventHub.DataAccess.EntityFramework.Migrations
                         .IsUnique()
                         .HasFilter("[UserId] IS NOT NULL");
 
-                    b.ToTable("EventMember");
+                    b.ToTable("EventMembers");
                 });
 
             modelBuilder.Entity("EventHub.DataAccess.EntityFramework.Models.Message", b =>
@@ -200,47 +200,7 @@ namespace EventHub.DataAccess.EntityFramework.Migrations
 
                     b.HasIndex("ModifiedByUserId");
 
-                    b.ToTable("Message");
-                });
-
-            modelBuilder.Entity("EventHub.DataAccess.EntityFramework.Models.Task", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CreatedByUserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(400)")
-                        .HasMaxLength(400);
-
-                    b.Property<Guid?>("EventId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("IsDone")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("ModifiedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ModifiedByUserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CreatedByUserId");
-
-                    b.HasIndex("EventId");
-
-                    b.HasIndex("ModifiedByUserId");
-
-                    b.ToTable("Task");
+                    b.ToTable("Messages");
                 });
 
             modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.DeviceFlowCodes", b =>
@@ -505,23 +465,6 @@ namespace EventHub.DataAccess.EntityFramework.Migrations
                         .HasForeignKey("EventId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("EventHub.DataAccess.EntityFramework.Models.ApplicationUser", "ModifiedByUser")
-                        .WithMany()
-                        .HasForeignKey("ModifiedByUserId")
-                        .OnDelete(DeleteBehavior.NoAction);
-                });
-
-            modelBuilder.Entity("EventHub.DataAccess.EntityFramework.Models.Task", b =>
-                {
-                    b.HasOne("EventHub.DataAccess.EntityFramework.Models.ApplicationUser", "CreatedByUser")
-                        .WithMany()
-                        .HasForeignKey("CreatedByUserId")
-                        .OnDelete(DeleteBehavior.NoAction);
-
-                    b.HasOne("EventHub.DataAccess.EntityFramework.Models.Event", null)
-                        .WithMany("Tasks")
-                        .HasForeignKey("EventId");
 
                     b.HasOne("EventHub.DataAccess.EntityFramework.Models.ApplicationUser", "ModifiedByUser")
                         .WithMany()

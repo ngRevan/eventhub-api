@@ -37,7 +37,7 @@ namespace EventHub.DataAccess.EntityFramework.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "EventMember",
+                name: "EventMembers",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
@@ -51,25 +51,25 @@ namespace EventHub.DataAccess.EntityFramework.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EventMember", x => x.Id);
+                    table.PrimaryKey("PK_EventMembers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_EventMember_AspNetUsers_CreatedByUserId",
+                        name: "FK_EventMembers_AspNetUsers_CreatedByUserId",
                         column: x => x.CreatedByUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_EventMember_Events_EventId",
+                        name: "FK_EventMembers_Events_EventId",
                         column: x => x.EventId,
                         principalTable: "Events",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_EventMember_AspNetUsers_ModifiedByUserId",
+                        name: "FK_EventMembers_AspNetUsers_ModifiedByUserId",
                         column: x => x.ModifiedByUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_EventMember_AspNetUsers_UserId",
+                        name: "FK_EventMembers_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -77,7 +77,7 @@ namespace EventHub.DataAccess.EntityFramework.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Message",
+                name: "Messages",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
@@ -90,77 +90,43 @@ namespace EventHub.DataAccess.EntityFramework.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Message", x => x.Id);
+                    table.PrimaryKey("PK_Messages", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Message_AspNetUsers_CreatedByUserId",
+                        name: "FK_Messages_AspNetUsers_CreatedByUserId",
                         column: x => x.CreatedByUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Message_Events_EventId",
+                        name: "FK_Messages_Events_EventId",
                         column: x => x.EventId,
                         principalTable: "Events",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Message_AspNetUsers_ModifiedByUserId",
-                        column: x => x.ModifiedByUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Task",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    CreatedAt = table.Column<DateTime>(nullable: false),
-                    CreatedByUserId = table.Column<string>(nullable: true),
-                    ModifiedAt = table.Column<DateTime>(nullable: true),
-                    ModifiedByUserId = table.Column<string>(nullable: true),
-                    Description = table.Column<string>(maxLength: 400, nullable: false),
-                    IsDone = table.Column<bool>(nullable: false),
-                    EventId = table.Column<Guid>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Task", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Task_AspNetUsers_CreatedByUserId",
-                        column: x => x.CreatedByUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Task_Events_EventId",
-                        column: x => x.EventId,
-                        principalTable: "Events",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Task_AspNetUsers_ModifiedByUserId",
+                        name: "FK_Messages_AspNetUsers_ModifiedByUserId",
                         column: x => x.ModifiedByUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_EventMember_CreatedByUserId",
-                table: "EventMember",
+                name: "IX_EventMembers_CreatedByUserId",
+                table: "EventMembers",
                 column: "CreatedByUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_EventMember_ModifiedByUserId",
-                table: "EventMember",
+                name: "IX_EventMembers_ModifiedByUserId",
+                table: "EventMembers",
                 column: "ModifiedByUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_EventMember_UserId",
-                table: "EventMember",
+                name: "IX_EventMembers_UserId",
+                table: "EventMembers",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_EventMember_EventId_UserId",
-                table: "EventMember",
+                name: "IX_EventMembers_EventId_UserId",
+                table: "EventMembers",
                 columns: new[] { "EventId", "UserId" },
                 unique: true,
                 filter: "[UserId] IS NOT NULL");
@@ -176,46 +142,28 @@ namespace EventHub.DataAccess.EntityFramework.Migrations
                 column: "ModifiedByUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Message_CreatedByUserId",
-                table: "Message",
+                name: "IX_Messages_CreatedByUserId",
+                table: "Messages",
                 column: "CreatedByUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Message_EventId",
-                table: "Message",
+                name: "IX_Messages_EventId",
+                table: "Messages",
                 column: "EventId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Message_ModifiedByUserId",
-                table: "Message",
-                column: "ModifiedByUserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Task_CreatedByUserId",
-                table: "Task",
-                column: "CreatedByUserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Task_EventId",
-                table: "Task",
-                column: "EventId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Task_ModifiedByUserId",
-                table: "Task",
+                name: "IX_Messages_ModifiedByUserId",
+                table: "Messages",
                 column: "ModifiedByUserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "EventMember");
+                name: "EventMembers");
 
             migrationBuilder.DropTable(
-                name: "Message");
-
-            migrationBuilder.DropTable(
-                name: "Task");
+                name: "Messages");
 
             migrationBuilder.DropTable(
                 name: "Events");

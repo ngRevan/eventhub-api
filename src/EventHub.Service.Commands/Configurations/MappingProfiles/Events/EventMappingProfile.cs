@@ -19,7 +19,6 @@ namespace EventHub.Service.Commands.Configurations.MappingProfiles.Events
                 .ForMember(dest => dest.ModifiedByUserId, src => src.Ignore())
                 .ForMember(dest => dest.Members, src => src.Ignore())
                 .ForMember(dest => dest.Messages, src => src.Ignore())
-                .ForMember(dest => dest.Tasks, src => src.Ignore())
                 .AfterMap((src, dest, context) =>
                 {
                     dest.Members.Add(context.Mapper.Map<EventMember>(src));
@@ -41,8 +40,7 @@ namespace EventHub.Service.Commands.Configurations.MappingProfiles.Events
                 .ForMember(dest => dest.ModifiedByUser, src => src.Ignore())
                 .ForMember(dest => dest.ModifiedByUserId, src => src.MapFrom<UserIdValueResolver>())
                 .ForMember(dest => dest.Members, src => src.Ignore())
-                .ForMember(dest => dest.Messages, src => src.Ignore())
-                .ForMember(dest => dest.Tasks, src => src.Ignore());
+                .ForMember(dest => dest.Messages, src => src.Ignore());
 
         }
     }

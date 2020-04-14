@@ -10,7 +10,6 @@ namespace EventHub.DataAccess.EntityFramework.Models
         {
             Members = new HashSet<EventMember>();
             Messages = new HashSet<Message>();
-            Tasks = new HashSet<Task>();
         }
 
         [Required]
@@ -27,7 +26,5 @@ namespace EventHub.DataAccess.EntityFramework.Models
         public virtual ICollection<EventMember> Members { get; set; }
 
         public virtual ICollection<Message> Messages { get; set; }
-
-        public virtual ICollection<Task> Tasks { get; set; }
     }
 }

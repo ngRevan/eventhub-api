@@ -17,13 +17,16 @@ namespace EventHub.DataAccess.EntityFramework.DataContext
 
         public DbSet<Event> Events { get; set; }
 
+        public DbSet<EventMember> EventMembers { get; set; }
+
+        public DbSet<Message> Messages { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
             builder.ApplyConfiguration(new EntityTypeConfigurations.EventConfiguration());
             builder.ApplyConfiguration(new EntityTypeConfigurations.EventMemberConfiguration());
             builder.ApplyConfiguration(new EntityTypeConfigurations.MessageConfiguration());
-            builder.ApplyConfiguration(new EntityTypeConfigurations.TaskConfiguration());
         }
     }
 }

@@ -42,13 +42,5 @@ namespace EventHub.DataAccess.EntityFramework.Configurations
                 base.Configure(builder);
             }
         }
-
-        public class TaskConfiguration : BaseEntityConfiguration<Task>
-        {
-            public override void Configure(EntityTypeBuilder<Task> builder)
-            {
-                base.Configure(builder);
-            }
-        }
     }
 }
