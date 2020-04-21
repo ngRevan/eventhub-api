@@ -54,6 +54,22 @@ namespace EventHub.Web.Api.Controllers
             return NoContent();
         }
 
+        [HttpPut("{eventId:guid}/Join", Name = "joinEvent")]
+        public async Task<IActionResult> JoinEvent(Guid eventId)
+        {
+            await _mediator.Send(new JoinEventCommand { Id = eventId });
+
+            return NoContent();
+        }
+
+        [HttpPut("{eventId:guid}/Leave", Name = "leaveEvent")]
+        public async Task<IActionResult> LeaveEvent(Guid eventId)
+        {
+            await _mediator.Send(new LeaveEventCommand { Id = eventId });
+
+            return NoContent();
+        }
+
         [HttpDelete("{eventId:guid}", Name = "deleteEvent")]
         public async Task<IActionResult> Delete(Guid eventId)
         {
