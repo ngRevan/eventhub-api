@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  eventhub.web.api:
+    image: ${DOCKER_REGISTRY-}eventhubweb
+    build:
+      context: .
+      dockerfile: src/EventHub.Web.Api/Dockerfile
