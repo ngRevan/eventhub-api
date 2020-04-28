@@ -19,9 +19,9 @@ namespace EventHub.DataAccess.EntityFramework.Models
         [MaxLength(600)]
         public string Description { get; set; }
 
-        public DateTime StartDateTime { get; set; }
+        public DateTimeOffset StartDate { get; set; }
 
-        public DateTime EndDateTime { get; set; }
+        public DateTimeOffset EndDate { get; set; }
 
         public virtual ICollection<EventMember> Members { get; set; }
 

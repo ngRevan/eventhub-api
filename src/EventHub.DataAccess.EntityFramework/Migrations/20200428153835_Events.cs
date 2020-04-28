@@ -12,14 +12,14 @@ namespace EventHub.DataAccess.EntityFramework.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    CreatedAt = table.Column<DateTime>(nullable: false),
+                    CreatedAt = table.Column<DateTimeOffset>(nullable: false),
                     CreatedByUserId = table.Column<string>(nullable: true),
-                    ModifiedAt = table.Column<DateTime>(nullable: true),
+                    ModifiedAt = table.Column<DateTimeOffset>(nullable: true),
                     ModifiedByUserId = table.Column<string>(nullable: true),
                     Name = table.Column<string>(maxLength: 200, nullable: false),
                     Description = table.Column<string>(maxLength: 600, nullable: true),
-                    StartDateTime = table.Column<DateTime>(nullable: false),
-                    EndDateTime = table.Column<DateTime>(nullable: false)
+                    StartDate = table.Column<DateTimeOffset>(nullable: false),
+                    EndDate = table.Column<DateTimeOffset>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -41,9 +41,9 @@ namespace EventHub.DataAccess.EntityFramework.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    CreatedAt = table.Column<DateTime>(nullable: false),
+                    CreatedAt = table.Column<DateTimeOffset>(nullable: false),
                     CreatedByUserId = table.Column<string>(nullable: true),
-                    ModifiedAt = table.Column<DateTime>(nullable: true),
+                    ModifiedAt = table.Column<DateTimeOffset>(nullable: true),
                     ModifiedByUserId = table.Column<string>(nullable: true),
                     EventId = table.Column<Guid>(nullable: false),
                     UserId = table.Column<string>(nullable: true),
@@ -81,9 +81,9 @@ namespace EventHub.DataAccess.EntityFramework.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    CreatedAt = table.Column<DateTime>(nullable: false),
+                    CreatedAt = table.Column<DateTimeOffset>(nullable: false),
                     CreatedByUserId = table.Column<string>(nullable: true),
-                    ModifiedAt = table.Column<DateTime>(nullable: true),
+                    ModifiedAt = table.Column<DateTimeOffset>(nullable: true),
                     ModifiedByUserId = table.Column<string>(nullable: true),
                     EventId = table.Column<Guid>(nullable: false),
                     Text = table.Column<string>(nullable: true)

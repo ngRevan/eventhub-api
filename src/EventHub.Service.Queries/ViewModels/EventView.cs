@@ -10,8 +10,8 @@ namespace EventHub.Service.Queries.ViewModels
 
         public string Description { get; set; }
 
-        public DateTime StartDateTime { get; set; }
+        public DateTime StartDate { get; set; }
 
-        public DateTime EndDateTime { get; set; }
+        public DateTime EndDate { get; set; }
     }
 }

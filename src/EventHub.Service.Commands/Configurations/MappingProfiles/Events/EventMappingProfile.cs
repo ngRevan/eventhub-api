@@ -17,6 +17,8 @@ namespace EventHub.Service.Commands.Configurations.MappingProfiles.Events
                 .ForMember(dest => dest.ModifiedAt, src => src.Ignore())
                 .ForMember(dest => dest.ModifiedByUser, src => src.Ignore())
                 .ForMember(dest => dest.ModifiedByUserId, src => src.Ignore())
+                .ForMember(dest => dest.StartDate, src => src.MapFrom(s => s.StartDate.ToUniversalTime().Date))
+                .ForMember(dest => dest.EndDate, src => src.MapFrom(s => s.EndDate.ToUniversalTime().Date))
                 .ForMember(dest => dest.Members, src => src.Ignore())
                 .ForMember(dest => dest.Messages, src => src.Ignore())
                 .AfterMap((src, dest, context) =>
@@ -31,6 +33,8 @@ namespace EventHub.Service.Commands.Configurations.MappingProfiles.Events
                 .ForMember(dest => dest.ModifiedAt, src => src.MapFrom(s => DateTime.UtcNow))
                 .ForMember(dest => dest.ModifiedByUser, src => src.Ignore())
                 .ForMember(dest => dest.ModifiedByUserId, src => src.MapFrom<UserIdValueResolver>())
+                .ForMember(dest => dest.StartDate, src => src.MapFrom(s => s.StartDate.ToUniversalTime().Date))
+                .ForMember(dest => dest.EndDate, src => src.MapFrom(s => s.EndDate.ToUniversalTime().Date))
                 .ForMember(dest => dest.Members, src => src.Ignore())
                 .ForMember(dest => dest.Messages, src => src.Ignore());
 

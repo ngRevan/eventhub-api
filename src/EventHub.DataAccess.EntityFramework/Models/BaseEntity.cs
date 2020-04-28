@@ -8,11 +8,11 @@ namespace EventHub.DataAccess.EntityFramework.Models
         [Key]
         public Guid Id { get; set; }
 
-        public DateTime CreatedAt { get; set; }
+        public DateTimeOffset CreatedAt { get; set; }
 
         public string CreatedByUserId { get; set; }
 
-        public DateTime? ModifiedAt { get; set; }
+        public DateTimeOffset? ModifiedAt { get; set; }
 
         public string ModifiedByUserId { get; set; }
 

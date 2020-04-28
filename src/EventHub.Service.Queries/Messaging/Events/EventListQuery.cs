@@ -11,9 +11,9 @@ namespace EventHub.Service.Queries.Messaging.Events
 
         public string Description { get; set; }
 
-        public DateTime? DateTimeFrom { get; set; }
+        public DateTime? DateFrom { get; set; }
 
-        public DateTime? DateTimeTo { get; set; }
+        public DateTime? DateTo { get; set; }
 
         public bool? IsMember { get; set; }
     }

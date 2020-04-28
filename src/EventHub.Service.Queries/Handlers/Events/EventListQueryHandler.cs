@@ -66,14 +66,14 @@ namespace EventHub.Service.Queries.Handlers.Events
                 predicate.And(e => e.Description.ToLower().Contains(message.Description.ToLower()));
             }
 
-            if(message.DateTimeFrom.HasValue)
+            if(message.DateFrom.HasValue)
             {
-                predicate.And(e => e.StartDateTime >= message.DateTimeFrom.Value);
+                predicate.And(e => e.StartDate >= message.DateFrom.Value.Date);
             }
 
-            if (message.DateTimeTo.HasValue)
+            if (message.DateTo.HasValue)
             {
-                predicate.And(e => e.EndDateTime <= message.DateTimeTo.Value);
+                predicate.And(e => e.EndDate <= message.DateTo.Value.Date);
             }
 
             var userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
