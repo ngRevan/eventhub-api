@@ -3,8 +3,12 @@ using EventHub.DataAccess.EntityFramework.DataContext;
 using EventHub.Service.Commands.Handlers.Events;
 using EventHub.Service.Commands.Validation.Events;
 using EventHub.Service.Queries.Handlers.Events;
+using EventHub.Web.Api.Authorization;
+using EventHub.Web.Api.Hubs;
 using MediatR;
 using MediatR.Extensions.FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,6 +31,10 @@ namespace EventHub.Web.Api.Configurations
                 typeof(Service.Queries.Configurations.MappingProfiles.Events.EventMappingProfile));
 
             services.AddFluentValidation(new List<Assembly> { typeof(CreateEventCommandValidator).Assembly });
+
+            services.AddSingleton<IUserIdProvider, NameIdentifierUserIdProvider>();
+
+            services.AddTransient(typeof(IAuthorizationHandler), typeof(ChatHubMemberHandler));
 
             return services;
         }

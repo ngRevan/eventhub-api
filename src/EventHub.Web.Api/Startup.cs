@@ -1,5 +1,6 @@
 using EventHub.DataAccess.EntityFramework.DataContext;
 using EventHub.Web.Api.Configurations;
+using EventHub.Web.Api.Hubs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -29,6 +30,7 @@ namespace EventHub.Web.Api
             services.AddAppIdentity();
             services.AddAppSecurity(Configuration);
             services.AddAppMvc();
+            services.AddSignalR();
             services.AddAppSwagger();
         }
 
@@ -60,6 +62,7 @@ namespace EventHub.Web.Api
             {
                 endpoints.MapControllers().RequireAuthorization();
                 endpoints.MapRazorPages();
+                endpoints.MapHub<ChatHub>("/hubs/chat");
             });
 
             app.UseAppSwagger();

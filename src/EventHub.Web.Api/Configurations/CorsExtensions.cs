@@ -7,20 +7,20 @@ namespace EventHub.Web.Api.Configurations
     {
         public static IServiceCollection AddMigrosCors(this IServiceCollection services)
         {
-            services.AddCors();
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy", builder => builder.WithOrigins("https://localhost:4200")
+                   .AllowAnyMethod()
+                   .AllowAnyHeader()
+                   .AllowCredentials());
+            });
 
             return services;
         }
 
         public static IApplicationBuilder UseMigrosCors(this IApplicationBuilder app)
         {
-            app.UseCors(configurePolicy =>
-            {
-                configurePolicy.AllowAnyOrigin();
-                configurePolicy.AllowAnyHeader();
-                configurePolicy.AllowAnyMethod();
-                configurePolicy.WithExposedHeaders("Content-Disposition", "Content-Length");
-            });
+            app.UseCors("CorsPolicy");
 
             return app;
         }
