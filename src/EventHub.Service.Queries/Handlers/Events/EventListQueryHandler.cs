@@ -17,22 +17,20 @@ namespace EventHub.Service.Queries.Handlers.Events
 {
     public sealed class EventListQueryHandler : IRequestHandler<EventListQuery, EventListResult>
     {
-        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ApplicationDbContext _dbContext;
         private readonly IConfigurationProvider _configurationProvider;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public EventListQueryHandler(IHttpContextAccessor httpContextAccessor, ApplicationDbContext dbContext, IConfigurationProvider configurationProvider)
+        public EventListQueryHandler(ApplicationDbContext dbContext, IConfigurationProvider configurationProvider, IHttpContextAccessor httpContextAccessor)
         {
-            _httpContextAccessor = httpContextAccessor;
             _dbContext = dbContext;
             _configurationProvider = configurationProvider;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<EventListResult> Handle(EventListQuery request, CancellationToken cancellationToken)
         {
-            var userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-
-            var query = _dbContext.Events.AsNoTracking().Where(e => e.Members.Any(m => m.UserId == userId));
+            var query = _dbContext.Events.AsNoTracking();
             query = ApplyFilter(query, request);
 
             var results = await query.ProjectTo<EventView>(_configurationProvider).ToListAsync(cancellationToken);
@@ -76,6 +74,12 @@ namespace EventHub.Service.Queries.Handlers.Events
             if (message.DateTimeTo.HasValue)
             {
                 predicate.And(e => e.EndDateTime <= message.DateTimeTo.Value);
+            }
+
+            var userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            if (message.IsMember.HasValue)
+            {
+                predicate.And(e => e.Members.Any(em => em.UserId == userId) == message.IsMember.Value);
             }
 
             return query.AsExpandableEFCore().Where(predicate);

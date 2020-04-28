@@ -5,6 +5,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace EventHub.Web.Api.Controllers
@@ -33,6 +34,16 @@ namespace EventHub.Web.Api.Controllers
         public async Task<ActionResult<EventView>> Get(Guid eventId)
         {
             var result = await _mediator.Send(new EventDetailQuery { Id = eventId });
+
+            return Ok(result.Result);
+        }
+
+
+        [HttpGet("{eventId:guid}/IsMember", Name = "isEventMember")]
+        public async Task<ActionResult<bool>> GetIsMember(Guid eventId)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var result = await _mediator.Send(new IsEventMemberQuery { EventId = eventId, UserId = userId });
 
             return Ok(result.Result);
         }
