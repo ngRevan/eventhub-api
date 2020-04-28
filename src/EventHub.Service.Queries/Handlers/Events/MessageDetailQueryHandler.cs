@@ -29,7 +29,7 @@ namespace EventHub.Service.Queries.Handlers.Events
         public async Task<MessageDetailResult> Handle(MessageDetailQuery request, CancellationToken cancellationToken)
         {
             var userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var message = await _dbContext.Messages.FirstOrDefaultAsync(m => m.EventId == request.EventId && m.Id == request.Id && m.Event.Members.Any(em => em.UserId == userId), cancellationToken);
+            var message = await _dbContext.Messages.Include(m => m.CreatedByUser).FirstOrDefaultAsync(m => m.EventId == request.EventId && m.Id == request.Id && m.Event.Members.Any(em => em.UserId == userId), cancellationToken);
             if (message == null)
             {
                 throw new KeyNotFoundException("Message could not be found");
