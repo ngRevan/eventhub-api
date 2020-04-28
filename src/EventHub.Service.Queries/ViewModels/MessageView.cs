@@ -12,6 +12,8 @@ namespace EventHub.Service.Queries.ViewModels
 
         public string Username { get; set; }
 
+        public string CreatedByUserId { get; set; }
+
         public DateTime CreatedAt { get; set; }
     }
 }
