@@ -2,7 +2,6 @@
 using EventHub.DataAccess.EntityFramework.Models;
 using EventHub.Infrastructure.Authorization;
 using EventHub.Infrastructure.Configurations;
-using EventHub.Web.Api.Authorization;
 using IdentityServer4.Models;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.AspNetCore.Authentication;
@@ -10,6 +9,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Security.Cryptography.X509Certificates;
 
 namespace EventHub.Web.Api.Configurations
 {
@@ -17,6 +18,9 @@ namespace EventHub.Web.Api.Configurations
     {
         public static IServiceCollection AddAppSecurity(this IServiceCollection services, IConfiguration configuration)
         {
+            var swaggerSection = new SwaggerSection();
+            configuration.Bind(SwaggerSection.SectionName, swaggerSection);
+
             services.AddIdentityServer()
                 .AddApiAuthorization<ApplicationUser, ApplicationDbContext>(c =>
                 {
@@ -26,7 +30,7 @@ namespace EventHub.Web.Api.Configurations
                         ClientName = "Swagger UI for EventHub API",
                         AllowedGrantTypes = GrantTypes.Implicit,
                         AllowAccessTokensViaBrowser = true,
-                        RedirectUris = { "https://localhost:44300/swagger/oauth2-redirect.html" },
+                        RedirectUris = { new Uri(new Uri(swaggerSection.UIServer), "/swagger/oauth2-redirect.html").ToString() },
                         AllowedScopes = { "EventHub.Web.ApiAPI" },
                         RequireConsent = false,
                     });

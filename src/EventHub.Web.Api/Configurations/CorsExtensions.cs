@@ -9,7 +9,7 @@ namespace EventHub.Web.Api.Configurations
         {
             services.AddCors(options =>
             {
-                options.AddPolicy("CorsPolicy", builder => builder.WithOrigins("https://localhost:4200")
+                options.AddPolicy("CorsPolicy", builder => builder.WithOrigins("https://localhost:4200", "https://eventhub.ch")
                    .AllowAnyMethod()
                    .AllowAnyHeader()
                    .AllowCredentials());

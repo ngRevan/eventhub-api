@@ -11,6 +11,8 @@ namespace EventHub.Web.Api.Configurations
             services.AddOptions();
 
             services.Configure<GoogleAuthSection>(configuration.GetSection(GoogleAuthSection.SectionName));
+            services.Configure<DistributedCacheSection>(configuration.GetSection(DistributedCacheSection.SectionName));
+            services.Configure<SwaggerSection>(configuration.GetSection(SwaggerSection.SectionName));
 
             return services;
         }

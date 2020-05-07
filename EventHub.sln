@@ -7,19 +7,36 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventHub.Web.Api", "src\Eve
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{2872E800-0322-40D1-B49A-31D95FDB4C2C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventHub.DataAccess.EntityFramework", "src\EventHub.DataAccess.EntityFramework\EventHub.DataAccess.EntityFramework.csproj", "{93E8D68A-64B8-4262-934B-E9B6BCBC8329}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventHub.DataAccess.EntityFramework", "src\EventHub.DataAccess.EntityFramework\EventHub.DataAccess.EntityFramework.csproj", "{93E8D68A-64B8-4262-934B-E9B6BCBC8329}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventHub.Service.Commands", "src\EventHub.Service.Commands\EventHub.Service.Commands.csproj", "{434CA1E9-00E6-403F-9B69-D784840334BC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventHub.Service.Commands", "src\EventHub.Service.Commands\EventHub.Service.Commands.csproj", "{434CA1E9-00E6-403F-9B69-D784840334BC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventHub.Service.Queries", "src\EventHub.Service.Queries\EventHub.Service.Queries.csproj", "{1D11DF02-571E-41EF-B088-65D0B6B36AEA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventHub.Service.Queries", "src\EventHub.Service.Queries\EventHub.Service.Queries.csproj", "{1D11DF02-571E-41EF-B088-65D0B6B36AEA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventHub.Infrastructure", "src\EventHub.Infrastructure\EventHub.Infrastructure.csproj", "{DFE16A23-B334-4FB3-A107-9E456C035E92}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventHub.Infrastructure", "src\EventHub.Infrastructure\EventHub.Infrastructure.csproj", "{DFE16A23-B334-4FB3-A107-9E456C035E92}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{BAF281A5-7A4A-420B-BE8E-5C4B5EE73CFB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{B3CC5571-9950-4CDE-9130-8D5F3B63797F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{EF16B26B-D3A0-4AA7-929E-083B3673B9DE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nginx", "nginx", "{E41C3ACD-9815-4CDF-8AAB-EF3758D8F03E}"
+	ProjectSection(SolutionItems) = preProject
+		nginx\api.eventhub.ch.crt = nginx\api.eventhub.ch.crt
+		nginx\api.eventhub.ch.key = nginx\api.eventhub.ch.key
+		nginx\Dockerfile = nginx\Dockerfile
+		nginx\nginx.conf = nginx\nginx.conf
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E1626DC5-4965-427E-8837-50EB26CE8684}"
+	ProjectSection(SolutionItems) = preProject
+		.dockerignore = .dockerignore
+		.gitignore = .gitignore
+		docker-compose.override.yml = docker-compose.override.yml
+		docker-compose.yml = docker-compose.yml
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

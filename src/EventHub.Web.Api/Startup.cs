@@ -12,12 +12,15 @@ namespace EventHub.Web.Api
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment environment)
         {
             Configuration = configuration;
+            Environment = environment;
         }
 
         public IConfiguration Configuration { get; }
+
+        public IWebHostEnvironment Environment { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
@@ -26,12 +29,15 @@ namespace EventHub.Web.Api
             services.AddAppDependencyInjection(Configuration);
             services.AddHttpContextAccessor();
             services.AddAppOptions(Configuration);
+            services.AddAppCaching(Configuration, Environment);
+            services.AddAppDataProtection(Environment);
+            services.AddAppForwardedHeaders();
             services.AddMigrosCors();
             services.AddAppIdentity();
             services.AddAppSecurity(Configuration);
             services.AddAppMvc();
             services.AddSignalR();
-            services.AddAppSwagger();
+            services.AddAppSwagger(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -40,6 +46,7 @@ namespace EventHub.Web.Api
             applicationDbContext.Database.Migrate();
             app.ApplicationServices.GetRequiredService<AutoMapper.IConfigurationProvider>().AssertConfigurationIsValid();
 
+            app.UseForwardedHeaders();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

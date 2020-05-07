@@ -7,10 +7,14 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
-COPY ["EventHub.Web.Api/EventHub.Web.Api.csproj", "EventHub.Web.Api/"]
-RUN dotnet restore "EventHub.Web.Api/EventHub.Web.Api.csproj"
+COPY ["src/EventHub.Web.Api/EventHub.Web.Api.csproj", "src/EventHub.Web.Api/"]
+COPY ["src/EventHub.Service.Commands/EventHub.Service.Commands.csproj", "src/EventHub.Service.Commands/"]
+COPY ["src/EventHub.DataAccess.EntityFramework/EventHub.DataAccess.EntityFramework.csproj", "src/EventHub.DataAccess.EntityFramework/"]
+COPY ["src/EventHub.Service.Queries/EventHub.Service.Queries.csproj", "src/EventHub.Service.Queries/"]
+COPY ["src/EventHub.Infrastructure/EventHub.Infrastructure.csproj", "src/EventHub.Infrastructure/"]
+RUN dotnet restore "src/EventHub.Web.Api/EventHub.Web.Api.csproj"
 COPY . .
-WORKDIR "/src/EventHub.Web.Api"
+WORKDIR "/src/src/EventHub.Web.Api"
 RUN dotnet build "EventHub.Web.Api.csproj" -c Release -o /app/build
 
 FROM build AS publish
@@ -19,4 +23,6 @@ RUN dotnet publish "EventHub.Web.Api.csproj" -c Release -o /app/publish
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "EventHub.Web.Api.dll"]
+COPY "src/EventHub.Web.Api/Docker" .
+RUN chmod +x ./wait-for-it.sh
+ENTRYPOINT ["./wait-for-it.sh", "db:1433", "-t", "120", "--", "dotnet", "EventHub.Web.Api.dll"]

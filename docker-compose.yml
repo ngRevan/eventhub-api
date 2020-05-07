@@ -1,0 +1,39 @@
+version: "3.4"
+
+services:
+  eventhub.api:
+    image: eventhub-api-image
+    build:
+      context: .
+      dockerfile: src/EventHub.Web.Api/Dockerfile
+    depends_on:
+      - db
+      - redis
+
+  db:
+    image: "mcr.microsoft.com/mssql/server"
+    environment:
+      SA_PASSWORD: "Your_password123"
+      ACCEPT_EULA: "Y"
+    volumes:
+      - ./data/mssql:/var/opt/mssql
+
+  redis:
+    image: redis
+    volumes:
+      - ./data/redis:/data
+    ports:
+      - "6379:6379"
+
+  eventhub.client:
+    image: eventhub-client-image
+    build: https://github.com/ngRevan/eventhub-client.git
+
+  nginx:
+    build: ./nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - eventhub.api
+      - eventhub.client
