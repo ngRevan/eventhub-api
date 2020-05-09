@@ -1,12 +1,14 @@
 using EventHub.DataAccess.EntityFramework.DataContext;
 using EventHub.Web.Api.Configurations;
 using EventHub.Web.Api.Hubs;
+using MessagePack;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Collections.Generic;
 
 namespace EventHub.Web.Api
 {
@@ -36,8 +38,9 @@ namespace EventHub.Web.Api
             services.AddAppIdentity();
             services.AddAppSecurity(Configuration);
             services.AddAppMvc();
-            services.AddSignalR();
             services.AddAppSwagger(Configuration);
+
+            services.AddSignalR().AddMessagePackProtocol();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
