@@ -1,9 +1,9 @@
-﻿using EventHub.Service.Queries.Messaging.Common;
-using EventHub.Service.Queries.Messaging.Events;
+﻿using EventHub.Service.Queries.Messaging.Events;
 using EventHub.Service.Queries.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace EventHub.Web.Api.Controllers
@@ -21,12 +21,11 @@ namespace EventHub.Web.Api.Controllers
         }
 
         [HttpGet(Name = "getEventMessages")]
-        public async Task<ActionResult<PagedListResult<MessageView>>> Get(Guid eventId, [FromQuery]MessageListQuery message)
+        public async Task<ActionResult<IEnumerable<MessageView>>> Get(Guid eventId)
         {
-            message.EventId = eventId;
-            var result = await _mediator.Send(message);
+            var result = await _mediator.Send(new MessageListQuery { EventId = eventId });
 
-            return Ok(result.Result);
+            return Ok(result.Results);
         }
     }
 }
