@@ -10,6 +10,10 @@ namespace EventHub.Web.Api.Configurations
             services.AddControllers(options =>
             {
                 options.CacheProfiles.Add("Never", new CacheProfile() { Location = ResponseCacheLocation.None, NoStore = true });
+            }).ConfigureApiBehaviorOptions(options =>
+            {
+                options.SuppressMapClientErrors = true;
+                options.SuppressModelStateInvalidFilter = true;
             });
 
             services.AddRazorPages();

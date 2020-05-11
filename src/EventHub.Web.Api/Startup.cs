@@ -1,14 +1,12 @@
 using EventHub.DataAccess.EntityFramework.DataContext;
 using EventHub.Web.Api.Configurations;
 using EventHub.Web.Api.Hubs;
-using MessagePack;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System.Collections.Generic;
 
 namespace EventHub.Web.Api
 {
@@ -33,8 +31,9 @@ namespace EventHub.Web.Api
             services.AddAppOptions(Configuration);
             services.AddAppCaching(Configuration, Environment);
             services.AddAppDataProtection(Environment);
+            services.AddAppProblemDetails(Environment);
             services.AddAppForwardedHeaders();
-            services.AddMigrosCors();
+            services.AddAppCors();
             services.AddAppIdentity();
             services.AddAppSecurity(Configuration);
             services.AddAppMvc();
@@ -50,14 +49,9 @@ namespace EventHub.Web.Api
             app.ApplicationServices.GetRequiredService<AutoMapper.IConfigurationProvider>().AssertConfigurationIsValid();
 
             app.UseForwardedHeaders();
-            if (env.IsDevelopment())
+            app.UseAppProblemDetails();
+            if (!env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Error");
                 app.UseHsts();
             }
 
@@ -65,7 +59,7 @@ namespace EventHub.Web.Api
             app.UseStaticFiles();
 
             app.UseRouting();
-            app.UseMigrosCors();
+            app.UseAppCors();
             app.UseAppSecurity();
 
             app.UseEndpoints(endpoints =>

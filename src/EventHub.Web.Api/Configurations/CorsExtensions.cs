@@ -5,7 +5,7 @@ namespace EventHub.Web.Api.Configurations
 {
     public static class CorsExtensions
     {
-        public static IServiceCollection AddMigrosCors(this IServiceCollection services)
+        public static IServiceCollection AddAppCors(this IServiceCollection services)
         {
             services.AddCors(options =>
             {
@@ -18,7 +18,7 @@ namespace EventHub.Web.Api.Configurations
             return services;
         }
 
-        public static IApplicationBuilder UseMigrosCors(this IApplicationBuilder app)
+        public static IApplicationBuilder UseAppCors(this IApplicationBuilder app)
         {
             app.UseCors("CorsPolicy");
 
