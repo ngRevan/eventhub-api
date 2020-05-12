@@ -3,7 +3,11 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using RedLockNet;
+using RedLockNet.SERedis;
+using RedLockNet.SERedis.Configuration;
 using StackExchange.Redis;
+using System.Collections.Generic;
 
 namespace EventHub.Web.Api.Configurations
 {
@@ -28,6 +32,7 @@ namespace EventHub.Web.Api.Configurations
                 });
 
                 services.AddSingleton<IConnectionMultiplexer>(provider => ConnectionMultiplexer.Connect($"{distributedCacheSection.Configuration},channelPrefix={distributedCacheSection.InstanceName}"));
+                services.AddSingleton<IDistributedLockFactory>(provider => RedLockFactory.Create(new List<RedLockMultiplexer>() { new RedLockMultiplexer(provider.GetService<IConnectionMultiplexer>()) }));
             }
 
             return services;

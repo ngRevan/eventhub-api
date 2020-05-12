@@ -7,6 +7,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using RedLockNet;
+using System;
+using System.Linq;
 
 namespace EventHub.Web.Api
 {
@@ -43,9 +46,9 @@ namespace EventHub.Web.Api
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ApplicationDbContext applicationDbContext)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ApplicationDbContext applicationDbContext, IDistributedLockFactory distributedLockFactory)
         {
-            applicationDbContext.Database.Migrate();
+            UpdateDatabase(applicationDbContext, distributedLockFactory);
             app.ApplicationServices.GetRequiredService<AutoMapper.IConfigurationProvider>().AssertConfigurationIsValid();
 
             app.UseForwardedHeaders();
@@ -70,6 +73,17 @@ namespace EventHub.Web.Api
             });
 
             app.UseAppSwagger();
+        }
+
+        private void UpdateDatabase(ApplicationDbContext applicationDbContext, IDistributedLockFactory distributedLockFactory)
+        {
+            using (var dbUpdateLock = distributedLockFactory.CreateLock("dbUpdate", TimeSpan.FromSeconds(10)))
+            {
+                if (dbUpdateLock.IsAcquired && applicationDbContext.Database.GetPendingMigrations().Any())
+                {
+                    applicationDbContext.Database.Migrate();
+                }
+            }
         }
     }
 }

@@ -16,7 +16,7 @@ services:
       SA_PASSWORD: "Your_password123"
       ACCEPT_EULA: "Y"
     volumes:
-      - ./data/mssql:/var/opt/mssql
+      - ./data/mssql:/var/opt/mssql/data
 
   redis:
     image: redis
