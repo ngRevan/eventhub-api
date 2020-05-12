@@ -15,8 +15,9 @@ services:
     environment:
       SA_PASSWORD: "Your_password123"
       ACCEPT_EULA: "Y"
-    volumes:
-      - ./data/mssql:/var/opt/mssql/data
+    # At the moment docker for windows version 2.3.0.2 has a bug when trying to mount sql server data. (Issue: https://github.com/microsoft/mssql-docker/issues/600)
+    # volumes:
+    #   - ./data/mssql:/var/opt/mssql/data
 
   redis:
     image: redis
