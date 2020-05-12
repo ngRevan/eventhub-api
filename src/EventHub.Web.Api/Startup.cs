@@ -41,19 +41,18 @@ namespace EventHub.Web.Api
             services.AddAppSecurity(Configuration);
             services.AddAppMvc();
             services.AddAppSwagger(Configuration);
-
-            services.AddSignalR().AddMessagePackProtocol();
+            services.AddAppSignalR(Environment, Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ApplicationDbContext applicationDbContext, IDistributedLockFactory distributedLockFactory)
+        public void Configure(IApplicationBuilder app, IServiceProvider serviceProvider)
         {
-            UpdateDatabase(applicationDbContext, distributedLockFactory);
+            UpdateDatabase(Environment, serviceProvider);
             app.ApplicationServices.GetRequiredService<AutoMapper.IConfigurationProvider>().AssertConfigurationIsValid();
 
             app.UseForwardedHeaders();
             app.UseAppProblemDetails();
-            if (!env.IsDevelopment())
+            if (!Environment.IsDevelopment())
             {
                 app.UseHsts();
             }
@@ -75,13 +74,25 @@ namespace EventHub.Web.Api
             app.UseAppSwagger();
         }
 
-        private void UpdateDatabase(ApplicationDbContext applicationDbContext, IDistributedLockFactory distributedLockFactory)
+        private void UpdateDatabase(IWebHostEnvironment environment, IServiceProvider serviceProvider)
         {
-            using (var dbUpdateLock = distributedLockFactory.CreateLock("dbUpdate", TimeSpan.FromSeconds(10)))
+            var dbContext = serviceProvider.GetRequiredService<ApplicationDbContext>();
+            if (environment.IsDevelopment())
             {
-                if (dbUpdateLock.IsAcquired && applicationDbContext.Database.GetPendingMigrations().Any())
+                if (dbContext.Database.GetPendingMigrations().Any())
                 {
-                    applicationDbContext.Database.Migrate();
+                    dbContext.Database.Migrate();
+                }
+            }
+            else
+            {
+                var distributedLockFactory = serviceProvider.GetRequiredService<IDistributedLockFactory>();
+                using (var dbUpdateLock = distributedLockFactory.CreateLock("dbUpdate", TimeSpan.FromSeconds(10)))
+                {
+                    if (dbUpdateLock.IsAcquired && dbContext.Database.GetPendingMigrations().Any())
+                    {
+                        dbContext.Database.Migrate();
+                    }
                 }
             }
         }
