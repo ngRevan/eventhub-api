@@ -2,13 +2,15 @@
 This project contains the ASP .NET backend as well as the docker-compose components needed to setup all services.
 
 ## Getting Started
-1.  On Windows be sure to clone this repository with the following parameter due to different line endings: `git clone <<url>> --config core.autocrlf=input`
-2.  Follow the build steps
-3.	Configure the name resolution and certificates
+1.  On Windows be sure to clone this repository with the following parameter due to different line endings: `git clone <<url>> --config core.autocrlf=input`.
+2.  Follow the build steps.
+3.	Configure the name resolution and certificates.
 4.	After finishing step 1 & 2 you can navigate to [https://eventhub.ch](https://eventhub.ch)  or  [https://api.eventhub.ch](https://api.eventhub.ch)  to see the live version. 
 
 ## Build
 Run `docker-compose -p eventhub-api up -d --scale eventhub.api=2 --build` in the root directory of this repository to build all the necessary images and to run the containers. 
+
+This step can take up to 2 minutes because the frontend has to wait for the database to finish building so the service startup is kept in order. This is done with a tool called [wait-for-it](https://docs.docker.com/compose/startup-order/)
 
 ## Configure (Linux)
 1. Edit your hosts file under `/etc/hosts` and add following lines
