@@ -9,7 +9,7 @@ namespace EventHub.Web.Api.Configurations
 {
     public static class ChachingExtensions
     {
-        public static IServiceCollection AddAppCaching(this IServiceCollection services, IConfiguration configuration, IWebHostEnvironment environment)
+        public static IServiceCollection AddAppCaching(this IServiceCollection services, IWebHostEnvironment environment, IConfiguration configuration)
         {
 
             if (environment.IsDevelopment())

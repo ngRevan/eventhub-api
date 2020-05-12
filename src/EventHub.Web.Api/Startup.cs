@@ -29,8 +29,8 @@ namespace EventHub.Web.Api
             services.AddAppDependencyInjection(Configuration);
             services.AddHttpContextAccessor();
             services.AddAppOptions(Configuration);
-            services.AddAppCaching(Configuration, Environment);
-            services.AddAppDataProtection(Environment);
+            services.AddAppCaching(Environment, Configuration);
+            services.AddAppDataProtection(Environment, Configuration);
             services.AddAppProblemDetails(Environment);
             services.AddAppForwardedHeaders();
             services.AddAppCors();
