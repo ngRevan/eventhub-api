@@ -4,7 +4,7 @@ This project contains the ASP .NET backend as well as the docker-compose compone
 ## Getting Started
 1.	Follow the build steps
 2.	Configure the name resolution and certificates
-3.	After finishing step 1 & 2 you can navigate to https://eventhub.ch(https://eventhub.ch)  or  https://api.eventhub.ch(https://api.eventhub.ch)  to see the live version. 
+3.	After finishing step 1 & 2 you can navigate to [https://eventhub.ch](https://eventhub.ch)  or  [https://api.eventhub.ch](https://api.eventhub.ch)  to see the live version. 
 
 ## Build
 Run `docker-compose -p eventhub-api up -d --scale eventhub.api=2 --build` in the root directory of this repository to build all the necessary images and to run the containers. 
